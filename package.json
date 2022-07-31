@@ -1,0 +1,30 @@
+{
+  "type": "commonjs",
+  "build": "rimraf ./build && tsc",
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "nodemon": "^2.0.19",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^9.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "start": "ts-node script.ts"
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "systemjs": "^6.12.1"
+  },
+  "name": "sudoku-solver",
+  "description": "I build this half asleep and bored.",
+  "version": "1.0.0",
+  "main": "script.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
