@@ -24,8 +24,6 @@ td
     padding: 0px;
     empty-cells: show;
     text-align: center;
-      
-
 }
 
 input
@@ -47,7 +45,6 @@ input
 
 button{
     display:inline-block;
-
 }
 
 #Console

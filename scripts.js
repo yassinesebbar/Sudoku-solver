@@ -1,11 +1,9 @@
 
 
-import {Sudoku} from './sudoku.js';
+import {Application} from './Models/application.js';
 
-    const sudoku = new Sudoku();
-    var html = sudoku.getHtml();
+const app = new Application();
+app.run();
 
-
-    document.getElementById("SudokuGameView").innerHTML = html;
 
 
