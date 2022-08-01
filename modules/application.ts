@@ -1,23 +1,25 @@
-import  Sudoku from './sudoku';
 import Console from './console';
+import Sudoku from './sudoku';
+
 
 export default class Application {
 
-    Sudoku : Sudoku;
     Console : Console;
+    Sudoku : Sudoku;
+
     title : string = "Sudoku Solver";
 
     constructor(){
-        this.Sudoku = new Sudoku();
         this.Console = new Console();
+        this.Sudoku = new Sudoku();
     }
 
     run(){
-        this.createHTML();
+        this.renderView();
         this.addEventListeners();
     }
 
-    createHTML(){
+    renderView(){
         var containerDivElement = document.createElement('div');
         containerDivElement.id = "Container";
 
@@ -26,7 +28,7 @@ export default class Application {
 
         var GridWrapperDivElement = document.createElement('div');
         GridWrapperDivElement.id = "SudokuGameView";
-        GridWrapperDivElement.innerHTML = this.Sudoku.getHTML();
+        GridWrapperDivElement.innerHTML = this.Sudoku.getEmptyHTMLGrids();
 
         containerDivElement.appendChild(titleH1Element);
         containerDivElement.appendChild(GridWrapperDivElement);
@@ -35,10 +37,22 @@ export default class Application {
         document.body.appendChild(containerDivElement);
     }
 
+    addEventListeners(){
+        this.Console.clearButtonElement.addEventListener("click",  (e:Event) => this.userActionClearGrid());
+        this.Console.startButtonElement.addEventListener("click",  (e:Event) => this.userActionSolveSudoku());
+
+        document.querySelectorAll('input').forEach(item => {
+            item.addEventListener('change',(e:Event) => this.userActionChangeInput(e));
+        })
+    }
+
     userActionClearGrid(){
         if(this.Console.clearButtonEnabled){
+
             this.Console.disableButtons();
-            this.Sudoku.clearSudoku();
+
+            this.Sudoku.clearBoard();
+
             this.Console.enableButtons();
 
             console.log("clear");
@@ -48,16 +62,19 @@ export default class Application {
     userActionSolveSudoku(){
         if(this.Console.startButtonEnabled){
             this.Console.disableButtons();
-            this.Sudoku.solveSudoku();
+            this.Sudoku.solve();
             this.Console.enableClearButton();
-
-            console.log("solve");
         }
     }
 
-    addEventListeners(){
-        this.Console.clearButtonElement.addEventListener("click",  (e:Event) => this.userActionClearGrid());
-        this.Console.startButtonElement.addEventListener("click",  (e:Event) => this.userActionSolveSudoku());
+    userActionChangeInput(e){
+        console.log(e.target);
+        console.log(e.target.value);
+        console.log(e.target.id);
+        
+        this.Sudoku.updateBoard(e.target.id, e.target.value);
     }
+
+   
 }
 

@@ -1,53 +1,40 @@
 "use strict";
 exports.__esModule = true;
+var SudokuEngine_1 = require("./SudokuEngine");
+var sudokuBoard_1 = require("./sudokuBoard");
 var Sudoku = (function () {
     function Sudoku() {
+        this.maxNum = 9;
+        this.minNum = 1;
+        this.maxSumTotalRow = 45;
         this.grids = 9;
         this.cellsPerGrid = 9;
-        this.renderEmptyGrids();
-        this.generateHashMap();
+        this.SudokuBoard = new sudokuBoard_1["default"](this.grids, this.cellsPerGrid);
+        this.SudokuEngine = new SudokuEngine_1["default"](this.maxNum, this.minNum, this.maxSumTotalRow);
     }
-    Sudoku.prototype.renderEmptyGrids = function () {
-        this.sudokuHtml = "";
-        for (var g = 1; g < this.grids + 1; g++) {
-            this.sudokuHtml += "<table class='TB-" + g + "'>";
-            for (var c = 1; c < this.cellsPerGrid + 1; c++) {
-                var cellValue = g + "-" + c;
-                if (c == 1) {
-                    this.sudokuHtml += "<tr class='TR-" + cellValue + "'>";
-                }
-                this.sudokuHtml += "<td class='TD-" + cellValue + "'>";
-                this.sudokuHtml += "<input min='1' max='9' type='number' id='INP-" + cellValue + "' >";
-                this.sudokuHtml += "</td>";
-                if (c == 3 || c == 6 || c == 9) {
-                    this.sudokuHtml += "</tr>";
-                }
-                if (c == 3 || c == 6) {
-                    this.sudokuHtml += "<tr class='TR-" + c + "'>";
-                }
-            }
-            this.sudokuHtml += "</table>";
+    Sudoku.prototype.updateBoard = function (cellId, value) {
+        console.log(this.checkCellValue(value) + " " + (cellId.length == 7));
+        if (this.checkCellValue(value) && cellId.length == 7) {
+            this.SudokuBoard.updateCellValue(cellId, value);
         }
-    };
-    Sudoku.prototype.generateHashMap = function () {
-        this.sudokuCellHashMap = {};
-        for (var grid = 1; grid < this.grids + 1; grid++) {
-            this.sudokuCellHashMap[grid] = {};
-            for (var cell = 1; cell < this.cellsPerGrid + 1; cell++) {
-                this.sudokuCellHashMap[grid][cell] = null;
-            }
+        else {
+            this.SudokuBoard.updateView();
         }
+        console.log(this.SudokuBoard.sudokuCellHashMap);
     };
-    Sudoku.prototype.getHTML = function () {
-        return this.sudokuHtml;
+    Sudoku.prototype.solve = function () {
     };
-    Sudoku.prototype.clearSudoku = function () {
-        this.renderEmptyGrids();
-        this.generateHashMap();
+    Sudoku.prototype.clearBoard = function () {
+        this.SudokuBoard.clear();
     };
-    Sudoku.prototype.updateView = function () {
+    Sudoku.prototype.getEmptyHTMLGrids = function () {
+        return this.SudokuBoard.renderEmptyGrids();
     };
-    Sudoku.prototype.solveSudoku = function () {
+    Sudoku.prototype.checkCellValue = function (value) {
+        if (value <= this.maxNum && value >= this.minNum) {
+            return true;
+        }
+        return false;
     };
     return Sudoku;
 }());
